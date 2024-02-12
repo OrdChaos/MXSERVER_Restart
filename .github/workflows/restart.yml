@@ -13,24 +13,24 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: garygrossgarten/github-action-ssh@release
+      - name: MX Server Restart
+        uses: garygrossgarten/github-action-ssh@release
         with:
           command: ./restart.sh
           host: ${{ secrets.HOST }}
           username: root
           password: ${{ secrets.PASSWORD }}
 
-      - run: |
+      - name: Update log.txt
+        run: |
           var=`date +%Y%m%d%H%M`
           echo $var | tee -a log.txt
 
-      - run: |
-          git config --global user.name 'OrdChaos' 
-          git config --global user.email 'orderchaos@ordchaos.com'
+      - name: Commit
+        run: |
           git add log.txt
           var=`date +%Y%m%d%H%M`
           git commit -m $var
-          git remote add origin_with_token https://${{ secrets.PAT }}@github.com/OrdChaos/MXSERVER_Restart.git
-          git push origin_with_token main
+          git push origin main
           
       - run: echo "Action Finish"
