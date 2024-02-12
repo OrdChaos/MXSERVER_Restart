@@ -1,50 +1,35 @@
-# This is a basic workflow to help you get started with Actions
-
 name: REMX
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   schedule:
     - cron: "0 20 * * *"
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout Codes
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Restart MX Service
-        uses: garygrossgarten/github-action-ssh@release
+      - uses: garygrossgarten/github-action-ssh@release
         with:
           command: ./restart.sh
           host: ${{ secrets.HOST }}
           username: root
           password: ${{ secrets.PASSWORD }}
 
-      - name: Update the Repositorie
-        run: |
+      - run: |
           var=`date +%Y%m%d%H%M`
           echo $var | tee -a log.txt
 
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: OrdChaos
-          author_email: orderchaos@ordchaos.com
-          message: "AUTO GENERATE"
-          add: "log.txt"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Finish
-        run: echo "Action Finish"
+      - run: |
+          git config --global user.name 'OrdChaos' 
+          git config --global user.email 'orderchaos@ordchaos.com'
+          git add log.txt
+          var=`date +%Y%m%d%H%M`
+          git commit -m $var
+          git push
+          
+      - run: echo "Action Finish"
