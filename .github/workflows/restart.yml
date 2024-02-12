@@ -28,6 +28,8 @@ jobs:
 
       - name: Commit
         run: |
+          git config --global user.name 'OrdChaos' 
+          git config --global user.email 'orderchaos@ordchaos.com'
           git add log.txt
           var=`date +%Y%m%d%H%M`
           git commit -m $var
