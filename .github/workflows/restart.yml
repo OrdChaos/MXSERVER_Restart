@@ -30,6 +30,7 @@ jobs:
           git add log.txt
           var=`date +%Y%m%d%H%M`
           git commit -m $var
-          git push origin main
+          git remote add origin_with_token https://${{ secrets.PAT }}@github.com/OrdChaos/MXSERVER_Restart.git
+          git push origin_with_token main
           
       - run: echo "Action Finish"
