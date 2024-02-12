@@ -30,6 +30,6 @@ jobs:
           git add log.txt
           var=`date +%Y%m%d%H%M`
           git commit -m $var
-          git push https://OrdChaos:${{ secrets.PAT }}@github.com/MXSERVER_Restart.git HEAD:main
+          git push https://OrdChaos:${{ secrets.PAT }}@github.com/OrdChaos/MXSERVER_Restart.git HEAD:main
           
       - run: echo "Action Finish"
