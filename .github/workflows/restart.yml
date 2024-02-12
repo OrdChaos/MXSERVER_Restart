@@ -21,7 +21,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout Codes
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Restart MX Service
         uses: garygrossgarten/github-action-ssh@release
@@ -43,6 +43,8 @@ jobs:
           author_email: orderchaos@ordchaos.com
           message: "AUTO GENERATE"
           add: "log.txt"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Finish
         run: echo "Action Finish"
